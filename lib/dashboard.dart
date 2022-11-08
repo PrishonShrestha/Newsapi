@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:newsapi/customcards.dart';
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
 
@@ -88,35 +89,10 @@ class _DashboardState extends State<Dashboard> {
               child: ListView.builder(
                   primary: true,
                   physics: ClampingScrollPhysics(),
-                  itemCount: 5,
+                  itemCount: 7,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (BuildContext context, int index)
-                  => Card(
-                    elevation: 1,
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Stack(
-                            children: [
-                              CachedNetworkImage(
-                                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqG_IrW41OWowRakdludbu-8KSLJLrXifvvyW3djZd&s",
-                                fit: BoxFit.cover,
-                                width: 130,
-                                height: 100,
-                                errorWidget: (context, url, error)=> const Icon(Icons.do_not_disturb_alt, color: Colors.red,),
-                                placeholder: (context, url)=>const CircularProgressIndicator(),
-                              ),
-                              const Positioned(
-                                left: 50,
-                                top: 40,
-                                child: Icon(Icons.play_circle,
-                              color: Colors.white, size: 30,),)
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  )
+                  => VerticalListCard(),
               ),
             )
           ],
