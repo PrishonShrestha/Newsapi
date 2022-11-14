@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:newsapi/api/get.dart';
 import 'package:newsapi/customcards.dart';
 
+
 import 'model/newsapi.dart';
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -12,13 +13,13 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  //String url = "";
   late Future<newsapi?> futurenews;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    futurenews = GetApi.getnewsdata(context) as Future<newsapi>;
+    futurenews = GetApi.getnewsdata(context);
   }
   @override
   Widget build(BuildContext context) {
@@ -62,7 +63,8 @@ class _DashboardState extends State<Dashboard> {
                         return Container(
                           child: const Text("No news data available"),
                         );
-                      }else{
+                      }
+                      else{
                         return Column(
                           children: [
                             //Horizontal listview
@@ -85,7 +87,11 @@ class _DashboardState extends State<Dashboard> {
                                             width: size.width/1.6,
                                             height: size.height/5,
                                             errorWidget: (context, url, error)=> const Icon(Icons.do_not_disturb_alt, color: Colors.red,),
-                                            placeholder: (context, url)=>const CircularProgressIndicator(),
+                                            placeholder: (context, url)=>
+                                                const SizedBox(
+                                                height: 30,
+                                                width: 30,
+                                                child:  CircularProgressIndicator()),
                                           ),
                                           Positioned(
                                             bottom: 10,
@@ -130,7 +136,9 @@ class _DashboardState extends State<Dashboard> {
                         );
                         //has data
                       }
+
                   }
+
                 }),
 
           ],

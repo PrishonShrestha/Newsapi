@@ -10,7 +10,7 @@ class GetApi{
   {
     try{
       http.Response data = await http.get(
-          Uri.dataFromString(Program.baseurl+"&aoiKey="+Program.apikey),
+          Uri.parse("${Program.baseurl}&apikey=${Program.apikey}"),
           headers: {
             'Content-type': 'application/json',
             'Accept': 'application/json',

@@ -1,11 +1,24 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
+import 'package:intl/intl.dart';
 import 'model/newsapi.dart';
 class VerticalListCard extends StatelessWidget {
   Articles articles;
   VerticalListCard(this.articles, {Key? key}) : super(key: key);
+//Change Date format
+  String dateformatter(String date){
+    DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+    DateTime format = dateFormat.parse(date);
+    DateFormat temp = DateFormat("MMM dd, yyyy");
+    String d = temp.format(format);
+    return d;
+  }
 
+  String urlformatter(String url){
+    String temp = url.split("://")[1];
+    String temp1 = temp.split(".")[0];
+    return temp1;
+  }
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -37,9 +50,9 @@ class VerticalListCard extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(1),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                //mainAxisAlignment: MainAxisAlignment.center,
                 children:  [
                   Text(articles.title!,
                     style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
@@ -50,17 +63,17 @@ class VerticalListCard extends StatelessWidget {
                       //button
                       Container(
                         height:30,
-                        width: 100,
+                        width: 60,
                         decoration: BoxDecoration(
                           color: Colors.red,
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: Center(
-                          child: Text(articles.url!, style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold,),
+                          child: Text(urlformatter(articles.url!), style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold,),
                           ),
                         ),
                       ),
-                      Text(articles.publishedAt!,
+                      Text(dateformatter(articles.publishedAt!),
                         style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       //Date
