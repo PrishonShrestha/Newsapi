@@ -2,9 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:newsapi/api/get.dart';
 import 'package:newsapi/customcards.dart';
-
-
 import 'model/newsapi.dart';
+
+enum Gender {
+  male, female, other
+}
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
 
@@ -14,6 +16,8 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   late Future<newsapi?> futurenews;
+  int gender = 1;
+
 
   @override
   void initState() {
@@ -29,8 +33,10 @@ class _DashboardState extends State<Dashboard> {
       appBar: AppBar(
         backgroundColor: const Color(0xFF004794),
         centerTitle: true,
-        title: const Text("Dashboard",
+        title: gender ==0 ? const Text("His Dashboard",
         style: TextStyle(color: Colors.white, fontWeight:FontWeight.bold, fontSize: 20),
+        ):const Text("Her Dashboard",
+          style: TextStyle(color: Colors.white, fontWeight:FontWeight.bold, fontSize: 20),
         ),
         elevation: 1,
         actions: const [

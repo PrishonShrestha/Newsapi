@@ -1,11 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'model/newsapi.dart';
+import 'package:newsapi/model/newsapi.dart';
+import 'package:newsapi/newsdetail.dart';
+
 class VerticalListCard extends StatelessWidget {
   Articles articles;
   VerticalListCard(this.articles, {Key? key}) : super(key: key);
-//Change Date format
+
   String dateformatter(String date){
     DateFormat dateFormat = DateFormat("yyyy-MM-dd");
     DateTime format = dateFormat.parse(date);
@@ -14,78 +16,97 @@ class VerticalListCard extends StatelessWidget {
     return d;
   }
 
-  String urlformatter(String url){
+  String urlformatter(String url)
+  {
     String temp = url.split("://")[1];
     String temp1 = temp.split(".")[0];
     return temp1;
+
   }
+
+
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 1,
-      child: Container(
-        height: 100,
-        child: Row(
-          children: [
-            Column(
-              children: [
-                Stack(
-                  children: [
-                    CachedNetworkImage(
-                      imageUrl: articles.urlToImage!,
-                      fit: BoxFit.cover,
-                      width: 130,
-                      height: 100,
-                      errorWidget: (context, url, error)=> const Icon(Icons.do_not_disturb_alt, color: Colors.red,),
-                      placeholder: (context, url)=>const CircularProgressIndicator(),
-                    ),
-                    const Positioned(
-                      left: 50,
-                      top: 40,
-                      child: Icon(Icons.play_circle,
-                        color: Colors.white, size: 30,),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(1),
-              child: Column(
-                //mainAxisAlignment: MainAxisAlignment.center,
-                children:  [
-                  Text(articles.title!,
-                    style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  Row(
-                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    var size = MediaQuery.of(context).size;
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context)=>NewsDetail(articles: articles,)));
+      },
+      child: Card(
+        elevation: 1,
+        child: Container(
+
+          child: Row(
+            children: [
+              Column(
+                children: [
+                  Stack(
                     children: [
-                      //button
-                      Container(
-                        height:30,
-                        width: 60,
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Center(
-                          child: Text(urlformatter(articles.url!), style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold,),
-                          ),
-                        ),
+                      CachedNetworkImage(
+                        imageUrl: articles.urlToImage!,
+                        fit: BoxFit.cover,
+                        width: 130,
+                        height: 100,
+                        errorWidget: (context, url, error)=> const Icon(Icons.do_not_disturb_alt, color: Colors.red,),
+                        placeholder: (context, url)=>const CircularProgressIndicator(),
                       ),
-                      Text(dateformatter(articles.publishedAt!),
-                        style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      //Date
+                      const Positioned(
+                        left: 50,
+                        top: 40,
+                        child: Icon(Icons.play_circle,
+                          color: Colors.white, size: 30,),)
                     ],
                   ),
                 ],
               ),
-            ),
-          ],
+              Container(
+                padding: const EdgeInsets.all(8.0),
+                width: size.width/1.7,
+                child: Column(
+                  children: [
+                    Text(articles.title!,
+                      style: TextStyle(
+                          color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold
+                      ),),
+                    SizedBox(height: 10,),
+                    Row(
+                      children: [
+//button
+                        Container(
+                          padding: EdgeInsets.all(8.0),
+                          height: 40,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(25),
+
+                          ),
+                          child: Text(urlformatter(articles.url!) ,
+                            style: TextStyle(
+                                color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold
+                            ),),
+
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Container(
+                            width: 70,
+                            child: Text(dateformatter(articles.publishedAt!),
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 10, fontWeight: FontWeight.bold
+                              ),),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 }
-
